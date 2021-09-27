@@ -1,13 +1,15 @@
 package main
 
 import (
+	"log"
+	"time"
+
 	v2 "github.com/envoyproxy/go-control-plane/envoy/api/v2"
 	core "github.com/envoyproxy/go-control-plane/envoy/api/v2/core"
 	endpoint "github.com/envoyproxy/go-control-plane/envoy/api/v2/endpoint"
 	"github.com/envoyproxy/go-control-plane/pkg/cache"
 	"github.com/golang/protobuf/ptypes"
-	"log"
-	"time"
+	"github.com/golang/protobuf/ptypes/wrappers"
 )
 
 func BuildCluster() []cache.Resource {
@@ -19,10 +21,18 @@ func BuildCluster() []cache.Resource {
 			Address:  "127.0.0.1",
 			Protocol: core.SocketAddress_TCP,
 			PortSpecifier: &core.SocketAddress_PortValue{
-				PortValue: uint32(8080),
+				PortValue: uint32(18080),
 			},
 		},
 	}}
+
+	hLightest := &core.Address{Address: &core.Address_SocketAddress{SocketAddress: &core.SocketAddress{
+		Protocol: core.SocketAddress_TCP,
+		Address:  "127.0.0.1",
+		PortSpecifier: &core.SocketAddress_PortValue{
+			PortValue: uint32(18081),
+		},
+	}}}
 
 	return []cache.Resource{
 		&v2.Cluster{
@@ -40,6 +50,19 @@ func BuildCluster() []cache.Resource {
 									Endpoint: &endpoint.Endpoint{
 										Address: h,
 									},
+								},
+								LoadBalancingWeight: &wrappers.UInt32Value{
+									Value: 1000,
+								},
+							},
+							{
+								HostIdentifier: &endpoint.LbEndpoint_Endpoint{
+									Endpoint: &endpoint.Endpoint{
+										Address: hLightest,
+									},
+								},
+								LoadBalancingWeight: &wrappers.UInt32Value{
+									Value: 1,
 								},
 							},
 						},

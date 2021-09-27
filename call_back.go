@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
-	v2 "github.com/envoyproxy/go-control-plane/envoy/api/v2"
 	"log"
+
+	v2 "github.com/envoyproxy/go-control-plane/envoy/api/v2"
 )
 
 type MyCallbacks struct{}
