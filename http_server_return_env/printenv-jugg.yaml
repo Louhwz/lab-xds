@@ -5,8 +5,8 @@ metadata:
   namespace: istio-test
 spec:
   containers:
-    - name: envoy-test
-      image: louhwz/printenv:0.0.2
+    - name: printenv
+      image: louhwz/printenv:0.0.3
       env:
       - name: printwhat
         value: "剑圣"
