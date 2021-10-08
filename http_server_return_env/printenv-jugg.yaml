@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: envoy-test
-      image: louhwz/envoy_test:0.0.2
+      image: louhwz/printenv:0.0.2
       env:
       - name: printwhat
         value: "剑圣"
