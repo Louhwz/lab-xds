@@ -1,0 +1,141 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: printenv-chain-1
+spec:
+  selector:
+    matchLabels:
+      app: printenv
+      version: v1
+      chain: v1
+  template:
+    metadata:
+      labels:
+        app: printenv
+        version: v1
+        chain: v1
+    spec:
+      containers:
+        - name: printenv
+          image: louhwz/printenv:0.0.3
+          env:
+            - name: printwhat
+              value: "剑圣-chain1"
+          resources:
+            limits:
+              cpu: 20m
+              memory: 50Mi
+            requests:
+              cpu: 20m
+              memory: 50Mi
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: printenv-chain-2
+spec:
+  selector:
+    matchLabels:
+      app: printenv
+      version: v2
+      chain: v2
+  template:
+    metadata:
+      labels:
+        app: printenv
+        version: v2
+        chain: v2
+    spec:
+      containers:
+        - name: printenv
+          image: louhwz/printenv:0.0.3
+          env:
+            - name: printwhat
+              value: "影魔-chain2"
+          resources:
+            limits:
+              cpu: 20m
+              memory: 50Mi
+            requests:
+              cpu: 20m
+              memory: 50Mi
+          ports:
+            - containerPort: 80
+---
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: printenv
+spec:
+  selector:
+    app: printenv
+  type: ClusterIP
+  ports:
+    - name: myjob
+      protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nettools-chain-1
+spec:
+  selector:
+    matchLabels:
+      app: nettools
+      version: v1
+      chain: v1
+  template:
+    metadata:
+      labels:
+        app: nettools
+        version: v1
+        chain: v1
+    spec:
+      # - Each init container must complete successfully before the next one starts.
+      containers:
+        - name: nettools
+          image: louhwz/nettools:0.0.1
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 10m
+              memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nettools-chain-2
+spec:
+  selector:
+    matchLabels:
+      app: nettools
+      version: v2
+      chain: v2
+  template:
+    metadata:
+      labels:
+        app: nettools
+        version: v2
+        chain: v2
+    spec:
+      # - Each init container must complete successfully before the next one starts.
+      containers:
+        - name: nettools
+          image: louhwz/nettools:0.0.1
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 10m
+              memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
