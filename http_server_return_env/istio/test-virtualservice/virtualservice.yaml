@@ -10,20 +10,20 @@ spec:
       match:
         - sourceLabels:
             app: nettools
-            chain: v1
+            chain: c1
       route:
         - destination:
             host: printenv.istio-test.svc.cluster.local
-            subset: v1
+            subset: chain-1
     - name: "chain-2"
       match:
         - sourceLabels:
             app: nettools
-            chain: v2
+            chain: c2
       route:
         - destination:
             host: printenv.istio-test.svc.cluster.local
-            subset: v2
+            subset: chain-2
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -34,9 +34,7 @@ spec:
   subsets:
     - name: chain-1
       labels:
-        chain: v1
         version: v1
     - name: chain-2
       labels:
         version: v2
-        chain: v2

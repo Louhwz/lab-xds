@@ -8,13 +8,13 @@ spec:
     matchLabels:
       app: printenv
       version: v1
-      chain: v1
+      chain: c1
   template:
     metadata:
       labels:
         app: printenv
         version: v1
-        chain: v1
+        chain: c1
     spec:
       containers:
         - name: printenv
@@ -41,13 +41,13 @@ spec:
     matchLabels:
       app: printenv
       version: v2
-      chain: v2
+      chain: c2
   template:
     metadata:
       labels:
         app: printenv
         version: v2
-        chain: v2
+        chain: c2
     spec:
       containers:
         - name: printenv
@@ -75,7 +75,7 @@ spec:
     app: printenv
   type: ClusterIP
   ports:
-    - name: myjob
+    - name: http
       protocol: TCP
       port: 80
       targetPort: 80
@@ -89,13 +89,13 @@ spec:
     matchLabels:
       app: nettools
       version: v1
-      chain: v1
+      chain: c1
   template:
     metadata:
       labels:
         app: nettools
         version: v1
-        chain: v1
+        chain: c1
     spec:
       # - Each init container must complete successfully before the next one starts.
       containers:
@@ -119,13 +119,13 @@ spec:
     matchLabels:
       app: nettools
       version: v2
-      chain: v2
+      chain: c2
   template:
     metadata:
       labels:
         app: nettools
         version: v2
-        chain: v2
+        chain: c2
     spec:
       # - Each init container must complete successfully before the next one starts.
       containers:
